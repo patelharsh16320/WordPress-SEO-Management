@@ -106,19 +106,38 @@ jQuery(function ($) {
         loadImages();
     });
     /* =========================================
-       SAVE ALT
-    ========================================= */
+     SAVE ALT
+  ========================================= */
     $(document).on('click', '.save-alt', function () {
-        let id = $(this).data('id');
+        let btn = $(this);
+        let id = btn.data('id');
         let alt = $(`.alt-input[data-id="${id}"]`).val();
         let title = $(`.smm-image-title[data-id="${id}"]`).val();
+        btn.text('Updating...');
         $.post(smm_ajax.ajaxurl, {
             action: 'smm_update_alt',
             id: id,
             alt: alt,
             title: title
         }, function () {
-            loadImages();
+            btn
+                .addClass('smm-success')
+                .text('Updated');
+            $('body').append(`
+                <div class="smm-toast">
+                Media Updated Successfully
+                </div>
+                `);
+            setTimeout(function () {
+                btn
+                    .removeClass('smm-success')
+                    .text('Save');
+            }, 2000);
+            setTimeout(function () {
+                $('.smm-toast').fadeOut(300, function () {
+                    $(this).remove();
+                });
+            }, 2000);
         });
     });
     /* =========================================
