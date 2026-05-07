@@ -20,10 +20,12 @@ require_once SMM_PATH . 'includes/ajax.php';
    ADMIN ASSETS
 ========================= */
 add_action('admin_enqueue_scripts', function () {
+
     wp_enqueue_style(
         'smm-admin',
         SMM_URL . 'assets/css/admin.css'
     );
+
     wp_enqueue_script(
         'smm-admin',
         SMM_URL . 'assets/js/admin.js',
@@ -31,6 +33,7 @@ add_action('admin_enqueue_scripts', function () {
         null,
         true
     );
+
     wp_enqueue_script(
         'smm-content',
         SMM_URL . 'assets/js/content-manage.js',
@@ -38,9 +41,19 @@ add_action('admin_enqueue_scripts', function () {
         null,
         true
     );
+
+    wp_enqueue_script(
+        'smm-seo-analysis',
+        SMM_URL . 'assets/js/seo-analysis.js',
+        ['jquery'],
+        time(),
+        true
+    );
+
     wp_localize_script('smm-admin', 'smm_ajax', [
         'ajaxurl' => admin_url('admin-ajax.php')
     ]);
+
     wp_localize_script('smm-content', 'smm_ajax', [
         'ajaxurl' => admin_url('admin-ajax.php')
     ]);

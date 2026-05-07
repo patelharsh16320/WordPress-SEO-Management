@@ -85,6 +85,10 @@ class="smm-meta-title"
 data-id="${item.id}"
 value="${item.meta_title || ''}"
 >
+
+<div class="smm-counter smm-title-count">
+0 / 60
+</div>
 </td>
 
 <td>
@@ -92,6 +96,10 @@ value="${item.meta_title || ''}"
 class="smm-meta-desc"
 data-id="${item.id}"
 >${item.meta_desc || ''}</textarea>
+
+<div class="smm-counter smm-desc-count">
+0 / 160
+</div>
 </td>
 
 <td>

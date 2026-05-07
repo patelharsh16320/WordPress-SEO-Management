@@ -31,7 +31,7 @@ function smm_media_page()
             <input
                 type="text"
                 id="smm-search"
-                placeholder="Search by image title or ALT"> <!-- PER PAGE -->
+                placeholder="Search by image Title">
             <select id="smm-per-page">
                 <option value="10">
                     10 / page
