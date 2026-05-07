@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name: SEO Manager
+ * Plugin Name: Smart Meta Manager
  * Description: SEO Media + Content Manager
  * Author: Harsh Patel
  * Version: 1.0

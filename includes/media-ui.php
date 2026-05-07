@@ -4,8 +4,8 @@ ADMIN MENU
 ========================================= */
 add_action('admin_menu', function () {    /* MAIN MENU */
     add_menu_page(
-        'SEO Manager',
-        'SEO Manager',
+        'Smart Meta Manager',
+        'Smart Meta Manager',
         'manage_options',
         'smm-media',
         'smm_media_page',
