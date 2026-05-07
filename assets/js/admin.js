@@ -46,7 +46,7 @@ jQuery(function ($) {
                                     value="${img.alt || ''}"
                                 >
                             </td>
-                            <td>
+                            <td style="display: grid;">
                                 <button class="save-alt" data-id="${img.id}">
                                     Save
                                 </button>
@@ -111,7 +111,6 @@ jQuery(function ($) {
     $(document).on('click', '.save-alt', function () {
         let id = $(this).data('id');
         let alt = $(`.alt-input[data-id="${id}"]`).val();
-
         let title = $(`.smm-image-title[data-id="${id}"]`).val();
         $.post(smm_ajax.ajaxurl, {
             action: 'smm_update_alt',
@@ -192,4 +191,56 @@ jQuery(function ($) {
     if ($('#smm-content-type').length) {
         $('#smm-content-type').trigger('change');
     }
+    /* =========================================
+   UPDATE ALL MEDIA
+========================================= */
+    $(document).on('click', '#smm-update-all-media', function () {
+        let btn = $(this);
+        btn.text('Updating...');
+        let rows = $('#smm-results tr');
+        let total = rows.length;
+        let completed = 0;
+        rows.each(function () {
+            let row = $(this);
+            let saveBtn = row.find('.save-alt');
+            let id = saveBtn.data('id');
+            if (!id) return;
+            let alt = row.find('.alt-input').val();
+            let title = row.find('.smm-image-title').val();
+            $.post(smm_ajax.ajaxurl, {
+                action: 'smm_update_alt',
+                id: id,
+                alt: alt,
+                title: title
+            }, function () {
+                saveBtn
+                    .addClass('smm-success')
+                    .text('Updated');
+                completed++;
+                if (completed >= total - 1) {
+                    btn
+                        .addClass('smm-success')
+                        .text('All Updated');
+                    $('body').append(`
+                    <div class="smm-toast">
+                        All Media Updated Successfully
+                    </div>
+                `);
+                    setTimeout(function () {
+                        btn
+                            .removeClass('smm-success')
+                            .text('Update All Media');
+                        $('.save-alt')
+                            .removeClass('smm-success')
+                            .text('Save');
+                    }, 2000);
+                    setTimeout(function () {
+                        $('.smm-toast').fadeOut(300, function () {
+                            $(this).remove();
+                        });
+                    }, 2000);
+                }
+            });
+        });
+    });
 });

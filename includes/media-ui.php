@@ -23,7 +23,8 @@ add_action('admin_menu', function () {    /* MAIN MENU */
 });/* =========================================
 MEDIA PAGE
 ========================================= */
-function smm_media_page() {
+function smm_media_page()
+{
 ?><div class="smm-wrap">
         <h1>Media Manager</h1> <!-- CONTROLS -->
         <div class="smm-controls"> <!-- SEARCH -->
@@ -70,7 +71,12 @@ function smm_media_page() {
             <tbody id="smm-results">
                 <!-- AJAX -->
             </tbody>
-        </table> <!-- PAGINATION -->
+        </table>
+        <div class="smm-bottom-actions">
+            <button id="smm-update-all-media">
+                Update All Media
+            </button>
+        </div>
         <div id="smm-pagination"></div>
     </div><?php
 }

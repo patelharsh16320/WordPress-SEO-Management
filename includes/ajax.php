@@ -182,55 +182,83 @@ add_action('wp_ajax_smm_fetch_content', function () {
    UPDATE CONTENT
 ========================================= */
 add_action('wp_ajax_smm_update_full_content', function () {
-    $id = intval($_POST['id']);
-    $title = sanitize_text_field(
-        $_POST['title']
-    );
-    $slug = sanitize_title(
-        $_POST['slug']
-    );
-    $meta_title = sanitize_text_field(
-        $_POST['meta_title']
-    );
-    $meta_desc = sanitize_textarea_field(
-        $_POST['meta_desc']
-    );
-    $noindex = sanitize_text_field(
-        $_POST['noindex'] ?? '0'
-    );
-    $nofollow = sanitize_text_field(
-        $_POST['nofollow'] ?? '0'
-    );
+
+    $id = intval($_POST['id'] ?? 0);
+
+    if (!$id) {
+        wp_send_json_error([
+            'message' => 'Invalid ID'
+        ], 400);
+    }
+
+    $title = sanitize_text_field($_POST['title'] ?? '');
+
+    $slug = sanitize_title($_POST['slug'] ?? '');
+
+    $meta_title = sanitize_text_field($_POST['meta_title'] ?? '');
+
+    $meta_desc = sanitize_textarea_field($_POST['meta_desc'] ?? '');
+
+    $noindex = sanitize_text_field($_POST['noindex'] ?? '0');
+
+    $nofollow = sanitize_text_field($_POST['nofollow'] ?? '0');
+
+    /* AUTO SLUG */
+    if (empty($slug) && !empty($title)) {
+
+        $slug = sanitize_title($title);
+
+    }
+
     /* UPDATE POST */
-    wp_update_post([
+    $updated = wp_update_post([
         'ID' => $id,
         'post_title' => $title,
         'post_name' => $slug
-    ]);
-    /* UPDATE YOAST META */
+    ], true);
+
+    /* ERROR */
+    if (is_wp_error($updated)) {
+
+        wp_send_json_error([
+            'message' => $updated->get_error_message()
+        ], 400);
+
+    }
+
+    /* UPDATE YOAST */
     update_post_meta(
         $id,
         '_yoast_wpseo_title',
         $meta_title
     );
+
     update_post_meta(
         $id,
         '_yoast_wpseo_metadesc',
         $meta_desc
     );
-    /* UPDATE NOINDEX */
+
+    /* ROBOTS */
     update_post_meta(
         $id,
         '_yoast_wpseo_meta-robots-noindex',
         $noindex
     );
-    /* UPDATE NOFOLLOW */
+
     update_post_meta(
         $id,
         '_yoast_wpseo_meta-robots-nofollow',
         $nofollow
     );
-    wp_send_json_success();
+
+    /* NEW LINK */
+    $new_link = get_permalink($id);
+
+    wp_send_json_success([
+        'link' => $new_link
+    ]);
+
 });
 /* =========================================
    CLEAR CONTENT META
