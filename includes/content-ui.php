@@ -50,29 +50,29 @@ function smm_content_page()
                 <option value="50">50 / page</option>
             </select>
             <!-- META FILTER -->
-<select id="smm-meta-filter">
+            <select id="smm-meta-filter">
 
-    <option value="">
-        All Content
-    </option>
+                <option value="">
+                    All Content
+                </option>
 
-    <option value="blank_title">
-        Blank Meta Title
-    </option>
+                <option value="blank_title">
+                    Blank Meta Title
+                </option>
 
-    <option value="blank_desc">
-        Blank Meta Description
-    </option>
+                <option value="blank_desc">
+                    Blank Meta Description
+                </option>
 
-    <option value="both_blank">
-        Both Blank
-    </option>
+                <option value="both_blank">
+                    Both Blank
+                </option>
 
-    <option value="both_filled">
-        Both Filled
-    </option>
+                <option value="both_filled">
+                    Both Filled
+                </option>
 
-</select>
+            </select>
         </div>
 
         <!-- TABLE -->
@@ -84,6 +84,7 @@ function smm_content_page()
                     <th>Slug</th>
                     <th>Meta Title</th>
                     <th>Meta Description</th>
+                    <th>Noindex/ No Follow</th>
                     <th>Actions</th>
                     <th>Link</th>
                 </tr>
@@ -94,8 +95,18 @@ function smm_content_page()
                 </tr>
             </tbody>
         </table>
+        </table>
+
+        <div class="smm-bottom-actions">
+            <button id="smm-update-all">
+                Update All
+            </button>
+        </div>
+
+        <div id="smm-content-pagination"></div>
         <!-- PAGINATION -->
         <div id="smm-content-pagination"></div>
+
     </div>
 <?php
 }
